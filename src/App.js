@@ -1,39 +1,40 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React, { Component } from "react";
+import "./App.css";
 class App extends Component {
-	
-	state = {
-        ip_adress: '...'
-        
-
-  }
-
-	componentDidMount(){
-		this.fetchData()
-
+	constructor(props) {
+		super(props);
+		this.state = {
+			items: [],
+			isLoaded: false
+		};
 	}
-
-	fetchData(){
-		fetch('https://jsonplaceholder.typicode.com/todos/1')
-		  .then(response => response.json())
-		  .then(data => console.log(data))
-		  .catch(error => console.log('failed',error))
-
-		  	
+	componentDidMount() {
+		fetch("https://jsonplaceholder.typicode.com/users")
+			.then(res => res.json())
+			.then(json => {
+				this.setState({
+					isLoaded: true,
+					items: json
+				});
+				console.log(this.state.items);
+			});
 	}
-	
-
-   render() {
-
-   	var {isLoading, contacts} = this.state;
-    return (
-      <div className="App">
-     sdfsdf
-      </div>
-    );
-  }
+	render() {
+		var { isLoaded, items } = this.state;
+		if (!isLoaded) {
+			return <div>Loading...</div>;
+		}
+		return (
+			<div classname="App">
+				<ul>
+					{items.map(item => (
+						<li key="{item.id}">
+							Name: {item.name} | Email: {item.email}
+						</li>
+					))}
+				</ul>
+			</div>
+		);
+	}
 }
-
 export default App;
