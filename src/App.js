@@ -1,5 +1,13 @@
 import React, { Component } from "react";
+import 'bootstrap/dist/css/bootstrap.css';
 import "./App.css";
+
+
+
+import Card from "./components/Card"
+
+import { FaBeer, FaUser, FaCity } from 'react-icons/fa';
+
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -7,9 +15,9 @@ class App extends Component {
 			items: [],
 			isLoaded: false
 		};
-	}
+	}  
 	componentDidMount() {
-		fetch("https://jsonplaceholder.typicode.com/users")
+		fetch("https://randomuser.me/api/?results=10")
 			.then(res => res.json())
 			.then(json => {
 				this.setState({
@@ -25,14 +33,42 @@ class App extends Component {
 			return <div>Loading...</div>;
 		}
 		return (
-			<div classname="App">
-				<ul>
-					{items.map(item => (
+			<div className="App">
+				<div className="container">
+				  	<div className="row">
+					{items.results.map(item => (
+						<div className="col-4 p-3">
+							<div className="card bg-dark text-white">
+							 <img className="card-img-top" src={item.picture.large} />
+							  <div className="card-body">
+							    <h5 className="card-title"><FaUser /> {item.name.first}</h5>
+							    <h5 className="card-title"><FaCity /> {item.location.city}</h5>
+							    <p className="card-text"> {item.email}</p>
+							    <p className="card-text">{item.gender}</p>
+							    
+							    <a href="#" className="btn btn-primary">Go somewhere</a>
+							  </div>
+							</div>
+						</div>
+						
+					))}
+					</div>
+				</div>
+				
+
+
+				{/*<ul>
+					{items.results.map(item => (
 						<li key="{item.id}">
-							Name: {item.name} | Email: {item.email}
+							Name: {item.phone} | Email: {item.email}
 						</li>
 					))}
 				</ul>
+
+
+				<Card></Card>*/}
+
+
 			</div>
 		);
 	}
